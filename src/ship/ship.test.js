@@ -13,4 +13,17 @@ describe('ship class methods', () => {
 			expect(testShip.health).toBe(3)
 		})
 	})
+	describe('isSunk() method', () => {
+		it('returns falsy if not sunk.', () => {
+			// at 1 hit, 3 health, should not be sunk.
+			expect(testShip.isSunk()).toBeFalsy()
+		})
+		it('returns truthy if sunk( 3 more hits taken )', () => {
+			// take 3 more hits, should be sunk
+			testShip.hit()
+			testShip.hit()
+			testShip.hit()
+			expect(testShip.isSunk()).toBeTruthy()
+		})
+	})
 })

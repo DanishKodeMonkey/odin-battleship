@@ -14,4 +14,7 @@ export default class Ship {
 	updateHealth() {
 		this.health = this.size - this.hits
 	}
+	isSunk() {
+		return this.health === 0 ? true : false
+	}
 }
