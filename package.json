@@ -4,7 +4,7 @@
   "description": "A game of battleship, made din javascript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack serve --open"
@@ -20,8 +20,11 @@
   },
   "homepage": "https://github.com/DanishKodeMonkey/odin-battleship#readme",
   "devDependencies": {
+    "@babel/core": "^7.24.1",
+    "@babel/preset-env": "^7.24.1",
     "css-loader": "^6.10.0",
     "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
     "style-loader": "^3.3.4",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
