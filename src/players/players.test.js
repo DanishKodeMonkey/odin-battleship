@@ -1,4 +1,4 @@
-import Player from './players'
+import { Player, createNPC } from './players'
 
 describe('Player class tests', () => {
 	const playerOne = new Player('Jane')
@@ -15,5 +15,11 @@ describe('Player class tests', () => {
 		it('the player should start in-turn', () => {
 			expect(playerOne.turn).toBeTruthy()
 		})
+	})
+})
+describe('the NPC ', () => {
+	it('the NPC should be created through a seperate function call', () => {
+		const npc = createNPC()
+		expect(typeof npc).toBe('object')
 	})
 })
