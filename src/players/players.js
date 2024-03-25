@@ -18,7 +18,6 @@ class Player {
 
 function createNPC() {
 	const npc = new Player('NPC', 10, true)
-	console.log(npc.board)
 	populateNPCgameBoard(npc.board, npc.board.placeShip.bind(npc.board))
 	return npc
 }
@@ -53,6 +52,7 @@ function populateNPCgameBoard(board, placeShip) {
 		}
 	}
 	board.printGrid()
+	console.log(`Took ${attempts + 1}/${maxAttempts} attempts`)
 }
 
 export { Player, createNPC }
