@@ -1,4 +1,4 @@
-import { Player, createNPC } from './players'
+import { Player, createNPC, populateNPCgameBoard } from './players'
 
 describe('Player class tests', () => {
 	const playerOne = new Player('Jane')
@@ -18,7 +18,8 @@ describe('Player class tests', () => {
 	})
 })
 describe('the NPC ', () => {
-	const npc = createNPC()
+	let npc = createNPC()
+
 	it('the NPC should be created through a seperate function call', () => {
 		expect(typeof npc).toBe('object')
 	})

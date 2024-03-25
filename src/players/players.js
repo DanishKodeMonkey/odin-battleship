@@ -39,7 +39,7 @@ function populateNPCgameBoard(board, placeShip) {
 
 		while (!placed && attempts < maxAttempts) {
 			// clear the board before attempting 20 times.
-			board.clearGrid()
+
 			const randomRow = Math.floor(Math.random() * board.size)
 			const randomCol = Math.floor(Math.random() * board.size)
 			const randomOrientation =
@@ -53,13 +53,14 @@ function populateNPCgameBoard(board, placeShip) {
 			}
 		}
 	}
-	board.printGrid()
-	console.log(`Took ${attempts + 1}/${maxAttempts} attempts`)
 
 	if (attempts === maxAttempts) {
 		console.log('Maximum attempts to populate game board reached. Resetting.')
-		populateNPCgameBoard(npc.board, npc.board.placeShip.bind(npc.board))
+		board.clearGrid()
+		populateNPCgameBoard(board, placeShip)
 	}
+	board.printGrid()
+	console.log(`Took ${attempts + 1}/${maxAttempts} attempts`)
 }
 
-export { Player, createNPC }
+export { Player, createNPC, populateNPCgameBoard }

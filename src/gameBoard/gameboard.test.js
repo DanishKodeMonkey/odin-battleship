@@ -43,7 +43,6 @@ describe('gameBoard tests', () => {
 				testBoard.placeShip(testSubmarine, [3, 1], 'horizontal')
 			).toThrow(new Error(`submarine is overlapping with destroyer`))
 			expect(testBoard.grid[31].ship).toBe(null)
-			testBoard.printGrid()
 		})
 		it('the game board should keep track of placed ships( the fleet )', () => {
 			expect(testBoard.fleet).toContain(
