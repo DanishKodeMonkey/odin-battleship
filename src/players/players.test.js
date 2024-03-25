@@ -18,8 +18,11 @@ describe('Player class tests', () => {
 	})
 })
 describe('the NPC ', () => {
+	const npc = createNPC()
 	it('the NPC should be created through a seperate function call', () => {
-		const npc = createNPC()
 		expect(typeof npc).toBe('object')
+	})
+	it('the NPC should have a populated gameBoard', () => {
+		expect(npc.board.isReady).toBeTruthy
 	})
 })

@@ -90,7 +90,6 @@ export default class GameBoard {
 				cell.ship = null
 			})
 			// pass error
-			this.printGrid()
 			throw error
 		}
 		this.updateShips()
@@ -130,7 +129,6 @@ export default class GameBoard {
 	updateFleet(ship) {
 		if (ship) {
 			this.fleet.push(ship)
-			console.log(this.fleet.length)
 			if (this.fleet.length === 5) {
 				this.isReady = true
 			}
