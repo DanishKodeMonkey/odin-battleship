@@ -154,4 +154,9 @@ export default class GameBoard {
 		}
 		console.log(gridString)
 	}
+	clearGrid() {
+		this.grid.forEach((cell) => {
+			cell.ship = null
+		})
+	}
 }
