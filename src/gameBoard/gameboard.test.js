@@ -22,20 +22,42 @@ describe('gameBoard tests', () => {
 	})
 	describe('the board functionality', () => {
 		// Ship for testing
-		const testShip = new Ship('battleship')
+		const testCarrier = new Ship('testCarrier')
+		const testBattleship = new Ship('battleship')
+		const testDestroyer = new Ship('destroyer')
+		const testSubmarine = new Ship('submarine')
+		const testPatrolBoat = new Ship('patrolBoat')
+
 		it('Part game board grid should be able to be assigned to a ship.', () => {
-			testBoard.placeShip(testShip, [0, 0], 'horizontal')
+			testBoard.placeShip(testBattleship, [0, 0], 'horizontal')
 			expect(typeof testBoard.grid[0].ship).toBe('object')
 		})
 		it('the game board should also work with a vertically aligned ship', () => {
-			const vertShip = new Ship(2)
-			testBoard.placeShip(vertShip, [1, 0], 'vertical')
+			testBoard.placeShip(testCarrier, [1, 0], 'vertical')
 			expect(typeof testBoard.grid[11]).toBe('object')
 		})
+		it('the game board should not allow overlaps', () => {
+			testBoard.placeShip(testDestroyer, [2, 2], 'vertical')
+
+			expect(() =>
+				testBoard.placeShip(testSubmarine, [3, 1], 'horizontal')
+			).toThrow(new Error(`submarine is overlapping with destroyer`))
+			expect(testBoard.grid[31].ship).toBe(null)
+			testBoard.printGrid()
+			console.log(testBoard.grid[31])
+		})
+		it('the game board should keep track of placed ships( the fleet )', () => {
+			expect(testBoard.fleet).toContain(
+				testBattleship,
+				testCarrier,
+				testBattleship
+			)
+		})
+
 		describe('registerHit method', () => {
 			it('The game board should register hits, and pass it to the ship hit method', () => {
 				testBoard.registerHit([0, 0])
-				expect(testShip.health).toBe(3)
+				expect(testDestroyer.health).toBe(3)
 			})
 			it('The game board should register misses, marking those cells as miss', () => {
 				testBoard.registerHit([0, 4])
@@ -53,10 +75,10 @@ describe('gameBoard tests', () => {
 				testBoard.registerHit([0, 1])
 				testBoard.registerHit([0, 2])
 				testBoard.registerHit([0, 3])
-				expect(testBoard.shipCount).toBeLessThan(2)
+				expect(testBoard.shipCount).toBeLessThan(3)
 			})
 			it('if shipCount reaches 0, game Over', () => {
-				expect(testBoard.gameOver).tobeTruthy
+				expect(testBoard.gameOver).toBeTruthy
 			})
 		})
 	})

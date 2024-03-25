@@ -20,7 +20,6 @@ export default class Ship {
 				return 4
 
 			case 'carrier':
-				console.log('returning carrier')
 				return 5
 		}
 	}
