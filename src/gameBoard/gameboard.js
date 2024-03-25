@@ -36,6 +36,16 @@ export default class GameBoard {
 		let cellsOccupiedByShip = []
 
 		try {
+			// check if ship has already been placed
+			if (
+				this.fleet.some(
+					(existingShip) => existingShip.shipType === ship.shipType
+				)
+			) {
+				throw new Error(`${ship.shipType} has already been placed`)
+			}
+
+			// otherwise, trying to place...
 			if (alignment === 'horizontal') {
 				for (let i = 0; i < ship.size; i++) {
 					if (startCol + i >= this.size) {

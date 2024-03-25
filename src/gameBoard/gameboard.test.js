@@ -53,6 +53,11 @@ describe('gameBoard tests', () => {
 				testBattleship
 			)
 		})
+		it('the game board should not allow placing ships that already exist ( 1 of each )', () => {
+			expect(() =>
+				testBoard.placeShip(testBattleship, [3, 3], 'vertical')
+			).toThrow(new Error('battleship has already been placed'))
+		})
 
 		describe('registerHit method', () => {
 			it('The game board should register hits, and pass it to the ship hit method', () => {
