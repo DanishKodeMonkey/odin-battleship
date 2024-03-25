@@ -57,7 +57,7 @@ function populateNPCgameBoard(board, placeShip) {
 	if (attempts === maxAttempts) {
 		console.log('Maximum attempts to populate game board reached. Resetting.')
 		board.clearGrid()
-		populateNPCgameBoard(board, placeShip)
+		attempts = 0
 	}
 	board.printGrid()
 	console.log(`Took ${attempts + 1}/${maxAttempts} attempts`)
