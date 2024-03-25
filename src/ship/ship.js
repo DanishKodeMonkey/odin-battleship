@@ -1,9 +1,7 @@
 export default class Ship {
-	constructor(shipType, startCoords, endCoords) {
+	constructor(shipType) {
 		this.shipType = shipType
 		this.size = this.checkShipType(shipType)
-		this.start = startCoords
-		this.end = endCoords
 		this.hits = 0
 		this.health = this.updateHealth()
 	}
