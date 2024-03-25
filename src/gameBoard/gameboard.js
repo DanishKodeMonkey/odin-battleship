@@ -4,6 +4,7 @@ export default class GameBoard {
 		this.grid = this.formGrid(this.size)
 		this.shipCount = this.updateShips()
 		this.fleet = []
+		this.isReady = false
 		this.gameOver = false
 	}
 
@@ -129,6 +130,10 @@ export default class GameBoard {
 	updateFleet(ship) {
 		if (ship) {
 			this.fleet.push(ship)
+			console.log(this.fleet.length)
+			if (this.fleet.length === 5) {
+				this.isReady = true
+			}
 		} else return
 	}
 	checkGameOver() {

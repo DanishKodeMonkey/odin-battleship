@@ -44,7 +44,6 @@ describe('gameBoard tests', () => {
 			).toThrow(new Error(`submarine is overlapping with destroyer`))
 			expect(testBoard.grid[31].ship).toBe(null)
 			testBoard.printGrid()
-			console.log(testBoard.grid[31])
 		})
 		it('the game board should keep track of placed ships( the fleet )', () => {
 			expect(testBoard.fleet).toContain(
@@ -57,6 +56,11 @@ describe('gameBoard tests', () => {
 			expect(() =>
 				testBoard.placeShip(testBattleship, [3, 3], 'vertical')
 			).toThrow(new Error('battleship has already been placed'))
+		})
+		it('the game board should mark as ready when all ships are placed', () => {
+			testBoard.placeShip(testPatrolBoat, [4, 3], 'horizontal')
+			testBoard.placeShip(testSubmarine, [5, 4], 'vertical')
+			expect(testBoard.isReady).toBe(true)
 		})
 
 		describe('registerHit method', () => {
@@ -80,7 +84,7 @@ describe('gameBoard tests', () => {
 				testBoard.registerHit([0, 1])
 				testBoard.registerHit([0, 2])
 				testBoard.registerHit([0, 3])
-				expect(testBoard.shipCount).toBeLessThan(3)
+				expect(testBoard.shipCount).toBeLessThan(4)
 			})
 			it('if shipCount reaches 0, game Over', () => {
 				expect(testBoard.gameOver).toBeTruthy
