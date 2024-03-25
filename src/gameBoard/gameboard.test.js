@@ -22,7 +22,7 @@ describe('gameBoard tests', () => {
 	})
 	describe('the board functionality', () => {
 		// Ship for testing
-		const testShip = new Ship(4)
+		const testShip = new Ship('battleship')
 		it('Part game board grid should be able to be assigned to a ship.', () => {
 			testBoard.placeShip(testShip, [0, 0], 'horizontal')
 			expect(typeof testBoard.grid[0].ship).toBe('object')

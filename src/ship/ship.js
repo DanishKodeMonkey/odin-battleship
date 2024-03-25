@@ -1,21 +1,40 @@
 export default class Ship {
-	constructor(size, startCoords, endCoords) {
-		this.size = size
+	constructor(shipType, startCoords, endCoords) {
+		this.shipType = shipType
+		this.size = this.checkShipType(shipType)
 		this.start = startCoords
 		this.end = endCoords
 		this.hits = 0
 		this.health = this.updateHealth()
 	}
-	hit() {
-		this.hits += 1
-		this.updateHealth()
-		this.isSunk()
-		return this.hits
+	checkShipType(shipType) {
+		switch (shipType) {
+			case 'patrolBoat':
+				return 2
+
+			case 'submarine':
+				return 3
+
+			case 'destroyer':
+				return 3
+
+			case 'battleship':
+				return 4
+
+			case 'carrier':
+				return 5
+		}
 	}
 	updateHealth() {
 		this.health = Math.max(0, this.size - this.hits)
 	}
 	isSunk() {
 		return this.health === 0 ? true : false
+	}
+	hit() {
+		this.hits += 1
+		this.updateHealth()
+		this.isSunk()
+		return this.hits
 	}
 }

@@ -1,7 +1,21 @@
 import Ship from './ship'
 
 describe('ship class methods', () => {
-	let testShip = new Ship(4, [2, 2], [2, 4])
+	let testShip = new Ship('submarine')
+	describe('creating a ship', () => {
+		it('creating a ship should be done per ship class', () => {
+			let carrierTest = new Ship('carrier')
+			let battleshipTest = new Ship('battleship')
+			let destroyerTest = new Ship('destroyer')
+			let submarineTest = new Ship('submarine')
+			let patrolBoatTest = new Ship('patrolBoat')
+			expect(carrierTest.shipType).toBe('carrier')
+			expect(battleshipTest.shipType).toBe('battleship')
+			expect(destroyerTest.shipType).toBe('destroyer')
+			expect(submarineTest.shipType).toBe('submarine')
+			expect(patrolBoatTest.shipType).toBe('patrolBoat')
+		})
+	})
 	describe('hit() method', () => {
 		it('hit() should be a function', () => {
 			expect(typeof testShip.hit).toBe('function')
@@ -10,7 +24,7 @@ describe('ship class methods', () => {
 			expect(testShip.hit()).toBe(1)
 		})
 		it('hit should result in lower ship health', () => {
-			expect(testShip.health).toBe(3)
+			expect(testShip.health).toBe(2)
 		})
 	})
 
