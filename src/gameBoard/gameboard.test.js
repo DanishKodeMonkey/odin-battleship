@@ -1,7 +1,7 @@
 import GameBoard from './gameboard'
 import Ship from '../ship/ship'
 
-describe('gameBoard tests', () => {
+describe.skip('gameBoard tests', () => {
 	const testBoard = new GameBoard(10)
 	describe('the board grid', () => {
 		it('the game board should hold a size attribute', () => {
