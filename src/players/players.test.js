@@ -1,7 +1,7 @@
 import { Player, createNPC, populateNPCgameBoard } from './players'
 
-describe.skip('Players class tests', () => {
-	describe.skip('the player', () => {
+describe('Players class tests', () => {
+	describe('the player', () => {
 		const playerOne = new Player('Jane')
 
 		describe('Player creation', () => {
@@ -18,7 +18,7 @@ describe.skip('Players class tests', () => {
 			})
 		})
 	})
-	describe.skip('the NPC ', () => {
+	describe('the NPC ', () => {
 		let npc = createNPC()
 
 		it('the NPC should be created through a seperate function call', () => {
