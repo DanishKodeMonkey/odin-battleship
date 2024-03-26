@@ -6,12 +6,35 @@ class Player {
 		this.board = new GameBoard(boardSize)
 		this.isNPC = isNPC
 		this.turn = this.checkIfNPC()
+		this.pointsHit = new Set()
 	}
 	checkIfNPC() {
 		if (this.isNPC) {
 			return false
 		} else {
 			return true
+		}
+	}
+	processNPCTurn(targetBoard) {
+		if (!this.isNPC || !this.turn) {
+			throw new Error('Is not NPC, or is not NPC turn. Skipping.')
+		}
+		try {
+			const randomRow = Math.floor(Math.random() * targetBoard.size)
+			const randomCol = Math.floor(Math.random() * targetBoard.size)
+			const targetPoint = [randomRow, randomCol]
+
+			// check if the point has already been targeted
+			if (this.pointsHit.has(targetPoint)) {
+				console.error('Invalid point targeted, already hit before. Retrying...')
+				this.processNPCTurn(targetBoard) // retry
+				return
+			}
+			console.log(`NPC targets point [${randomRow}, ${randomCol}]`)
+			this.pointsHit.add(targetPoint)
+		} catch (error) {
+			console.error('An error occurred: ', error.message)
+			throw error
 		}
 	}
 }

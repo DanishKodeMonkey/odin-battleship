@@ -55,4 +55,32 @@ describe('the NPC ', () => {
 			expect(testBoard.clearGrid).toHaveBeenCalled()
 		})
 	})
+	describe('processNPCTurn method', () => {
+		let mockPlayer
+		beforeEach(() => {
+			// mock an instance of the Players class as a player
+			mockPlayer = new Player('MockPlayer', 10, false)
+			// mock clearGrid method of opponents board
+			mockPlayer.board.clearGrid = jest.fn()
+			// spy on placeShip method of opponents board
+			mockPlayer.board.placeShip = jest.fn()
+
+			// reset pointsHit list for NPC
+			npc.pointsHit = new Set()
+		})
+
+		it('should hit a random point on the players gameBoard', () => {
+			//set the npcs turn to true
+			npc.turn = true
+			// create a console spy, using a no-op function to only intercept the calls
+			// Thanks stackoverflow for this one
+			const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+			npc.processNPCTurn(mockPlayer.board)
+
+			expect(consoleSpy).toHaveBeenCalledWith(
+				expect.stringContaining('NPC targets point')
+			)
+		})
+	})
 })
