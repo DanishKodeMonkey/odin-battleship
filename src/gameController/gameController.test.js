@@ -18,12 +18,13 @@ describe('GameController', () => {
 		it('should wait for both player one, and player two boards to be ready', () => {
 			game.PlayerOne.board.isReady = false
 			game.PlayerTwo.board.isReady = true
-			console.log(game.PlayerOne.board.isReady, game.PlayerTwo.board.isReady)
+
 			// check if game is ready to start
 			const gameReady = game.start()
 
 			expect(gameReady).toBe(false)
 		})
+		it('should prompt player One to place all ships', () => {})
 		it('should start game when both players are ready', () => {
 			game.PlayerOne.board.isReady = true
 			game.PlayerTwo.board.isReady = true
@@ -33,8 +34,10 @@ describe('GameController', () => {
 		})
 	})
 	describe('game loop', () => {
-		it('Game should start by assigning a current players turn', () => {
-			expect(game.game()).toBe(game.PlayerOne)
+		it('should start by assigning player One as currentPlayer', () => {
+			game.game()
+			expect(game.currentPlayer).toBe(game.PlayerOne)
 		})
+		it('should switch between players after each turn', () => {})
 	})
 })

@@ -53,6 +53,43 @@ header{
 main{
     background-color: dimgray;
 }
+.container{
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width:90vw;
+}
+.board{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:10px;
+    
+
+}
+.grid-container{
+    display:grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    grid-template-rows: repeat(10, minmax(0, 1fr));
+    gap: 1px;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.cell{
+    border: 1px solid black;
+    display:inline-block;
+    width: calc(100% / 10 - 2px);
+    height: calc(100% / 10 - 2px);
+    text-align:center;
+    line-height: 0;
+    justify-content: center;
+    align-items: center;
+
+}
+.cellContent{
+    font-size: clamp(20px,1vw,50px);
+}
 footer{
     position: fixed;
     left: 0;
