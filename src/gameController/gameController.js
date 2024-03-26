@@ -1,40 +1,35 @@
 import { Player, createNPC } from '../players/players'
 
-const gameController = (playerOneName, playerTwoName) => {
-	const checkIfNPC = () => {
-		if (playerTwoName) {
-			return new Player(playerTwoName)
+export default class GameController {
+	constructor(playerOneName, playerTwoName) {
+		this.PlayerOne = new Player(playerOneName)
+		this.PlayerTwo = playerTwoName ? new Player(playerTwoName) : createNPC()
+		this.currentPlayer
+	}
+	isReady() {
+		if (this.PlayerOne.board.isReady && this.PlayerTwo.board.isReady) {
+			return true
+		} else return false
+	}
+	start() {
+		if (this.isReady()) {
+			this.game()
+			return true
 		} else {
-			return createNPC()
+			return false
 		}
 	}
-	const PlayerOne = new Player(playerOneName)
-	const PlayerTwo = checkIfNPC()
+	game() {
+		let currentPlayer = this.PlayerOne
 
-	const isReady = () => {
-		const playerOneReady = PlayerOne.board.isReady
-		const playerTwoReady = PlayerTwo.board.isReady
-
-		console.log(playerOneReady, playerTwoReady)
-		return playerOneReady && playerTwoReady
+		return currentPlayer
 	}
-	const getPlayerName = () => {
-		return PlayerOne.name
+	changeTurn() {
+		this.PlayerOne.turn = !this.PlayerOne.turn
+		this.PlayerTwo.turn = !this.PlayerTwo.turn
 	}
 
-	const start = () => {
-		if (isReady()) {
-			return true // start game condition
-		} else {
-			return false // game not ready to start
-		}
-	}
-	return {
-		PlayerOne,
-		PlayerTwo,
-		getPlayerName,
-		start,
+	isGameOver() {
+		// game over logic
 	}
 }
-
-export default gameController
