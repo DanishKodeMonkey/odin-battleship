@@ -19,23 +19,24 @@ class Player {
 		if (!this.isNPC || !this.turn) {
 			throw new Error('Is not NPC, or is not NPC turn. Skipping.')
 		}
-		try {
+		let attempts = 0
+
+		while (attempts < 20) {
 			const randomRow = Math.floor(Math.random() * targetBoard.size)
 			const randomCol = Math.floor(Math.random() * targetBoard.size)
 			const targetPoint = [randomRow, randomCol]
 
-			// check if the point has already been targeted
-			if (this.pointsHit.has(targetPoint)) {
-				console.error('Invalid point targeted, already hit before. Retrying...')
-				this.processNPCTurn(targetBoard) // retry
-				return
+			if (!this.pointsHit.has(targetPoint)) {
+				console.log(`NPC targets point [${randomRow}, ${randomCol}]`)
+				this.pointsHit.add(targetPoint)
+				return // Exit loop and function after successful hit
 			}
-			console.log(`NPC targets point [${randomRow}, ${randomCol}]`)
-			this.pointsHit.add(targetPoint)
-		} catch (error) {
-			console.error('An error occurred: ', error.message)
-			throw error
+			// If failing once
+			console.error('Invalid point targeted, already hit before. Retrying...')
+			attempts++
 		}
+		// if fail 20 times
+		throw new Error('Failed to target a valid point after multiple attempts.')
 	}
 }
 

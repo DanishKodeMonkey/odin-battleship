@@ -68,7 +68,13 @@ describe('the NPC ', () => {
 			// reset pointsHit list for NPC
 			npc.pointsHit = new Set()
 		})
-
+		it('should throw an error if not in turn, or not NPC', () => {
+			// set npcs turn to false
+			npc.turn = false
+			expect(() => npc.processNPCTurn(mockPlayer.board)).toThrow(
+				'Is not NPC, or is not NPC turn. Skipping.'
+			)
+		})
 		it('should hit a random point on the players gameBoard', () => {
 			//set the npcs turn to true
 			npc.turn = true
@@ -81,6 +87,7 @@ describe('the NPC ', () => {
 			expect(consoleSpy).toHaveBeenCalledWith(
 				expect.stringContaining('NPC targets point')
 			)
+			consoleSpy.mockRestore()
 		})
 	})
 })
