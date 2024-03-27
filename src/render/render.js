@@ -1,9 +1,7 @@
 function renderBoard(gameBoard, containerID, player) {
 	console.log('render triggered, received: ', gameBoard, containerID, player)
 	const container = document.getElementById(containerID)
-	if (container.textContent !== '') {
-		container.textContent = ''
-	} // Clear existing content
+	container.innerHTML = ''
 
 	const playerName = document.createElement('div')
 	playerName.classList.add('player-name')
@@ -41,9 +39,11 @@ function renderBoard(gameBoard, containerID, player) {
 	container.appendChild(grid)
 }
 
-function placeShipToDOM(ship, player, board) {
-	console.log('placeShipToDOM trigger received: ', ship, player, board)
-	const grid = document.getElementById(`${player}-grid`)
+function placeShipToDOM(ship, player) {
+	console.log('placeShipToDOM trigger received: ', ship, player)
+	const board = player.board
+	const name = player.name
+	const grid = document.getElementById(`${name}-grid`)
 
 	// retrieve all cell elements from grid
 
@@ -92,12 +92,49 @@ function placeShipToDOM(ship, player, board) {
 			// remove shiphover class from all cells
 			cells.forEach((cell) => cell.classList.remove('shipHover'))
 		})
-		cell.addEventListener('click', cellClick)
+		cell.addEventListener('click', function () {
+			console.log(
+				'placing ship at',
+				parseInt(this.getAttribute('coordinate').split(',')[0]),
+				parseInt(this.getAttribute('coordinate').split(',')[1])
+			)
+			const coordinate = this.getAttribute('coordinate').split(',')
+			const x = parseInt(coordinate[0])
+			const y = parseInt(coordinate[1])
+			board.placeShip(ship, [x, y], 'horizontal')
+			updateBoard(board, name, player)
+		})
 	})
 }
+function updateBoard(board, name, player) {
+	const grid = document.getElementById(`${name}-grid`)
 
-function cellClick() {
-	console.log('click!')
+	// Clear existing content
+	grid.innerHTML = ''
+
+	// Render the updated grid
+	for (let row = 0; row < board.size; row++) {
+		for (let col = 0; col < board.size; col++) {
+			const cellDiv = document.createElement('div')
+			cellDiv.classList.add('cell')
+			cellDiv.setAttribute('coordinate', row + ',' + col)
+			const cellContent = document.createElement('p')
+			cellContent.classList.add('cellContent')
+			const cell = board.grid.find(
+				(cell) => cell.row === row && cell.col === col
+			)
+
+			if (cell.ship) {
+				cellDiv.classList.add(
+					player === 'playerone' ? 'playerOneShip' : 'playerTwoShip'
+				)
+			} else {
+				// Display '-' if the cell is empty
+			}
+			cellDiv.appendChild(cellContent)
+			grid.appendChild(cellDiv)
+		}
+	}
 }
 
-export { renderBoard, placeShipToDOM }
+export { renderBoard, placeShipToDOM, updateBoard }

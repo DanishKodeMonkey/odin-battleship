@@ -34,7 +34,7 @@ export default class GameController {
 	promptShipPlacement() {
 		const currentPlayer = this.PlayerOne
 		const nextShipToPlace = currentPlayer.board.shipsToPlace[0]
-		placeShipToDOM(nextShipToPlace, this.PlayerOne.name, this.PlayerOne.board)
+		placeShipToDOM(nextShipToPlace, this.PlayerOne)
 	}
 
 	isGameOver() {
