@@ -6,6 +6,13 @@ export default class GameBoard {
 		this.fleet = []
 		this.isReady = false
 		this.gameOver = false
+		this.shipsToPlace = [
+			new Ship('carrier'),
+			new Ship('battleship'),
+			new Ship('destroyer'),
+			new Ship('submarine'),
+			new Ship('patrolBoat'),
+		]
 	}
 
 	Cell(row, col) {
@@ -93,8 +100,29 @@ export default class GameBoard {
 			throw error
 		}
 		this.updateShips()
-		this.updateFleet(ship)
+		this.addToFleet(ship)
+		this.removeFromDock(ship)
+		this.readyCheck()
 	}
+	addToFleet(ship) {
+		if (ship) {
+			this.fleet.push(ship)
+		}
+	}
+
+	removeFromDock(shipToMove) {
+		this.shipsToPlace = this.shipsToPlace.filter(
+			(ship) => ship.shipType !== shipToMove.shipType
+		)
+	}
+	readyCheck() {
+		if (this.fleet.length === 5 && this.shipsToPlace.length === 0) {
+			this.isReady = true
+		} else {
+			return
+		}
+	}
+
 	registerHit(coords) {
 		const row = coords[0]
 		const col = coords[1]
@@ -126,14 +154,7 @@ export default class GameBoard {
 		// Update ship count based on the sets size
 		this.shipCount = ships.size
 	}
-	updateFleet(ship) {
-		if (ship) {
-			this.fleet.push(ship)
-			if (this.fleet.length === 5) {
-				this.isReady = true
-			}
-		} else return
-	}
+
 	checkGameOver() {
 		if (this.shipCount <= 0) return true
 	}
