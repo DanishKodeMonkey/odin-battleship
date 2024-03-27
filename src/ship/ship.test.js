@@ -1,6 +1,6 @@
 import Ship from './ship'
 
-describe.skip('ship class methods', () => {
+describe('ship class methods', () => {
 	let testShip = new Ship('submarine')
 	describe('creating a ship', () => {
 		let carrierTest = new Ship('carrier')

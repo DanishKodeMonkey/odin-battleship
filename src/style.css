@@ -55,40 +55,71 @@ main{
 }
 .container{
     display:flex;
-    align-items: center;
-    justify-content: space-evenly;
+    align-items: start;
+    justify-content: space-around;
     width:90vw;
+    height:80vh;
+
+}
+.player-name{
+    background-color: silver;
+    width: 100%;
+    text-align: center;
+    font-size: 3vw;
 }
 .board{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin:10px;
-    
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;  
+    width:100%;
 
+  
 }
+
 .grid-container{
-    display:grid;
+    display: grid;
     grid-template-columns: repeat(10, minmax(0, 1fr));
     grid-template-rows: repeat(10, minmax(0, 1fr));
-    gap: 1px;
     display: inline-block;
     border: 1px solid black;
+    width:90%;
+    height:0;
+    padding-bottom: 100%;
+    gap:0;
+    margin: 0;
+    padding: 0;
+
 }
 
 .cell{
+    background-color: rgb(0, 255, 255);
+    aspect-ratio: 1/1;
     border: 1px solid black;
     display:inline-block;
-    width: calc(100% / 10 - 2px);
-    height: calc(100% / 10 - 2px);
+    width: calc(10% - 2px); /* Adjusted width */
+    height: auto; /* Adjusted height */
+    min-height: 25px; /* Minimum height */
     text-align:center;
     line-height: 0;
     justify-content: center;
     align-items: center;
+    /* important, stacks cell rows properly */
+    vertical-align: top;
+
 
 }
 .cellContent{
     font-size: clamp(20px,1vw,50px);
+    margin:0;
+}
+.playerOneShip{
+    background-color: rgba(0, 110, 255, 0.582);
+    border: 1px solid rgba(0, 0, 255, 0.87)
+}
+.playerTwoShip{
+    background-color: rgba(255, 0, 0, 0.596);
+    border: 1px solid rgb(255, 0, 0)
 }
 footer{
     position: fixed;

@@ -1,6 +1,6 @@
 import { Player, createNPC, populateNPCgameBoard } from './players'
 
-describe.skip('Players class tests', () => {
+describe('Players class tests', () => {
 	describe('the player', () => {
 		const playerOne = new Player('Jane')
 
