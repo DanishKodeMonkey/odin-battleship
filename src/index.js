@@ -1,6 +1,6 @@
 import './style.css'
 
-import renderBoard from './render/render'
+import { renderBoard } from './render/render'
 import GameController from './gameController/gameController'
 import createModal from './render/modal'
 
@@ -17,4 +17,6 @@ export function newGame(playerOne) {
 
 	renderBoard(game.PlayerOne.board, 'playerone-board', game.PlayerOne.name)
 	renderBoard(game.PlayerTwo.board, 'playertwo-board', game.PlayerTwo.name)
+
+	game.start()
 }

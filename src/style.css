@@ -121,6 +121,9 @@ main{
     font-size: clamp(20px,1vw,50px);
     margin:0;
 }
+.shipHover{
+    background-color: azure;
+}
 .playerOneShip{
     background-color: rgba(0, 110, 255, 0.582);
     border: 1px solid rgba(0, 0, 255, 0.87)

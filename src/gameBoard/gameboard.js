@@ -1,3 +1,5 @@
+import Ship from '../ship/ship'
+
 export default class GameBoard {
 	constructor(size = 10) {
 		this.size = size

@@ -1,4 +1,5 @@
 import { Player, createNPC } from '../players/players'
+import { placeShipToDOM } from '../render/render'
 
 // STOP TRYING TO RENDER STUFF AND HANDLE INFORMATION THAT OTHER MODULES SHOULD HANDLE DUDE AARR!
 // initialize a render for each players board here, but handle it in another module.
@@ -19,6 +20,7 @@ export default class GameController {
 			this.game()
 			return true
 		} else {
+			this.promptShipPlacement()
 			return false
 		}
 	}
@@ -28,6 +30,11 @@ export default class GameController {
 	changeTurn() {
 		this.PlayerOne.turn = !this.PlayerOne.turn
 		this.PlayerTwo.turn = !this.PlayerTwo.turn
+	}
+	promptShipPlacement() {
+		const currentPlayer = this.PlayerOne
+		const nextShipToPlace = currentPlayer.board.shipsToPlace[0]
+		placeShipToDOM(nextShipToPlace, this.PlayerOne.name, this.PlayerOne.board)
 	}
 
 	isGameOver() {
