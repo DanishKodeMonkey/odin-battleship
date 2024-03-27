@@ -1,6 +1,9 @@
 export default function renderBoard(gameBoard, containerID, player) {
+	console.log('render triggered, received: ', gameBoard, containerID, player)
 	const container = document.getElementById(containerID)
-	container.innerHTML = '' // Clear existing content
+	if (container.textContent !== '') {
+		container.textContent = ''
+	} // Clear existing content
 
 	const playerName = document.createElement('div')
 	playerName.classList.add('player-name')
