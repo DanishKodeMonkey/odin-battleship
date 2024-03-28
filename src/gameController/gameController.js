@@ -11,49 +11,42 @@ export default class GameController {
 	}
 
 	isReady() {
-		if (this.PlayerOne.board.isReady && this.PlayerTwo.board.isReady) {
-			return true
-		} else return false
+		return this.PlayerOne.board.isReady && this.PlayerTwo.board.isReady
 	}
 	start() {
-		console.log('start trigger')
 		if (this.isReady()) {
-			console.log('ready')
 			this.game()
 			return true
 		} else {
-			console.log('not ready')
 			this.promptShipPlacement()
 			return false
 		}
 	}
+	allShipsPlacedCallback() {
+		this.start()
+	}
 	game() {
+		console.log('game now starting')
 		this.currentPlayer = this.PlayerOne
+		this.changeTurn()
 	}
 	changeTurn() {
 		this.PlayerOne.turn = !this.PlayerOne.turn
 		this.PlayerTwo.turn = !this.PlayerTwo.turn
 	}
 	promptShipPlacement() {
-		console.log('promptShipPlacement trigger')
 		const currentPlayer = this.PlayerOne
-		const nextShipToPlace = currentPlayer.board.shipsToPlace[0]
-		if (nextShipToPlace) {
+
+		if (currentPlayer.board.shipsToPlace.length > 0) {
+			const nextShipToPlace = currentPlayer.board.shipsToPlace[0]
+
 			placeShipToDOM(
 				nextShipToPlace,
 				this.PlayerOne,
 				this.PlayerOne.board,
-				this.promptShipPlacement.bind(this)
+				this.promptShipPlacement.bind(this),
+				this.allShipsPlacedCallback.bind(this)
 			)
-		} else {
-			if (this.isReady()) {
-				this.game()
-			} else {
-				console.error(
-					'Error: Unable to start game, not all ships have been placed.'
-				)
-			}
-			return
 		}
 	}
 

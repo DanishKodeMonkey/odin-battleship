@@ -113,16 +113,14 @@ export default class GameBoard {
 	}
 
 	removeFromDock(shipToMove) {
+		console.log('Moving ship form dock: ', shipToMove.shipType)
 		this.shipsToPlace = this.shipsToPlace.filter(
 			(ship) => ship.shipType !== shipToMove.shipType
 		)
+		console.log('new dock: ', this.shipsToPlace)
 	}
 	readyCheck() {
-		if (this.fleet.length === 5 && this.shipsToPlace.length === 0) {
-			this.isReady = true
-		} else {
-			return
-		}
+		this.isReady = this.fleet.length === 5 && this.shipsToPlace.length === 0
 	}
 
 	registerHit(coords) {
@@ -155,6 +153,7 @@ export default class GameBoard {
 		})
 		// Update ship count based on the sets size
 		this.shipCount = ships.size
+		return this.shipCount
 	}
 
 	checkGameOver() {

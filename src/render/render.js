@@ -39,7 +39,13 @@ function renderBoard(gameBoard, containerID, player) {
 	container.appendChild(grid)
 }
 
-function placeShipToDOM(ship, player, board, promptShipPlacement) {
+function placeShipToDOM(
+	ship,
+	player,
+	board,
+	promptShipPlacement,
+	allShipsPlacedCallback
+) {
 	console.log('placeShipToDOM trigger received: ', ship, player)
 	const name = player.name
 	const grid = document.getElementById(`${name}-grid`)
@@ -102,8 +108,12 @@ function placeShipToDOM(ship, player, board, promptShipPlacement) {
 			const y = parseInt(coordinate[1])
 			board.placeShip(ship, [x, y], 'horizontal')
 			updateBoard(board, name)
-			if (board.shipsToPlace.length > 0) {
+			if (board.shipsToPlace.length !== 0) {
+				console.log('more ships found: ', board.shipsToPlace)
 				promptShipPlacement()
+			} else {
+				console.log('no more ships found, start game.')
+				allShipsPlacedCallback()
 			}
 		})
 	})
