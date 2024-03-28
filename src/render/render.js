@@ -39,9 +39,8 @@ function renderBoard(gameBoard, containerID, player) {
 	container.appendChild(grid)
 }
 
-function placeShipToDOM(ship, player) {
+function placeShipToDOM(ship, player, board, promptShipPlacement) {
 	console.log('placeShipToDOM trigger received: ', ship, player)
-	const board = player.board
 	const name = player.name
 	const grid = document.getElementById(`${name}-grid`)
 
@@ -102,11 +101,14 @@ function placeShipToDOM(ship, player) {
 			const x = parseInt(coordinate[0])
 			const y = parseInt(coordinate[1])
 			board.placeShip(ship, [x, y], 'horizontal')
-			updateBoard(board, name, player)
+			updateBoard(board, name)
+			if (board.shipsToPlace.length > 0) {
+				promptShipPlacement()
+			}
 		})
 	})
 }
-function updateBoard(board, name, player) {
+function updateBoard(board, name) {
 	const grid = document.getElementById(`${name}-grid`)
 
 	// Clear existing content
@@ -126,7 +128,7 @@ function updateBoard(board, name, player) {
 
 			if (cell.ship) {
 				cellDiv.classList.add(
-					player === 'playerone' ? 'playerOneShip' : 'playerTwoShip'
+					name === 'playerone' ? 'playerOneShip' : 'playerTwoShip'
 				)
 			} else {
 				// Display '-' if the cell is empty

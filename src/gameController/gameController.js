@@ -16,10 +16,13 @@ export default class GameController {
 		} else return false
 	}
 	start() {
+		console.log('start trigger')
 		if (this.isReady()) {
+			console.log('ready')
 			this.game()
 			return true
 		} else {
+			console.log('not ready')
 			this.promptShipPlacement()
 			return false
 		}
@@ -32,9 +35,26 @@ export default class GameController {
 		this.PlayerTwo.turn = !this.PlayerTwo.turn
 	}
 	promptShipPlacement() {
+		console.log('promptShipPlacement trigger')
 		const currentPlayer = this.PlayerOne
 		const nextShipToPlace = currentPlayer.board.shipsToPlace[0]
-		placeShipToDOM(nextShipToPlace, this.PlayerOne)
+		if (nextShipToPlace) {
+			placeShipToDOM(
+				nextShipToPlace,
+				this.PlayerOne,
+				this.PlayerOne.board,
+				this.promptShipPlacement.bind(this)
+			)
+		} else {
+			if (this.isReady()) {
+				this.game()
+			} else {
+				console.error(
+					'Error: Unable to start game, not all ships have been placed.'
+				)
+			}
+			return
+		}
 	}
 
 	isGameOver() {
