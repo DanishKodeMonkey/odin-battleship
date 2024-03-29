@@ -1,5 +1,7 @@
 function renderBoard(gameBoard, containerID, player) {
 	console.log('render triggered, received: ', gameBoard, containerID, player)
+	const boardContainer = document.getElementById('board-container')
+	console.log(boardContainer)
 	const container = document.getElementById(containerID)
 	container.innerHTML = ''
 
@@ -37,6 +39,20 @@ function renderBoard(gameBoard, containerID, player) {
 		}
 	}
 	container.appendChild(grid)
+	boardContainer.appendChild(container)
+}
+
+function updateTurnDOM(player) {
+	const turnDiv = document.getElementById('turn-div')
+	turnDiv.textContent = ''
+	const turnTitle = document.createElement('p')
+	turnTitle.classList.add('turn-title')
+	turnTitle.textContent = 'Player turn:'
+	const turnText = document.createElement('p')
+	turnText.classList.add('turn-text')
+	turnText.textContent = player
+
+	turnDiv.append(turnTitle, turnText)
 }
 
 function placeShipToDOM(
@@ -118,6 +134,7 @@ function placeShipToDOM(
 		})
 	})
 }
+
 function updateBoard(board, name) {
 	const grid = document.getElementById(`${name}-grid`)
 
@@ -149,4 +166,4 @@ function updateBoard(board, name) {
 	}
 }
 
-export { renderBoard, placeShipToDOM, updateBoard }
+export { renderBoard, placeShipToDOM, updateBoard, updateTurnDOM }
