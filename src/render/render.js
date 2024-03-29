@@ -135,7 +135,7 @@ function placeShipToDOM(
 			const x = parseInt(coordinate[0])
 			const y = parseInt(coordinate[1])
 			board.placeShip(ship, [x, y], shipOrientation)
-			updateBoard(board, name)
+			updateBoard(board, name, player)
 			if (board.shipsToPlace.length !== 0) {
 				console.log('more ships found: ', board.shipsToPlace)
 				promptShipPlacement()
@@ -217,7 +217,8 @@ function setupAttackListeners(attacker, defender, endTurnCallback) {
 	})
 }
 
-function updateBoard(board, name) {
+function updateBoard(board, name, player) {
+	console.log('updating board: ', board, name, player.isNPC)
 	const grid = document.getElementById(`${name}-grid`)
 
 	// Clear existing content
@@ -237,10 +238,8 @@ function updateBoard(board, name) {
 
 			if (cell.ship) {
 				cellDiv.classList.add(
-					name === 'playerone' ? 'playerOneShip' : 'playerTwoShip'
+					player.isNPC === false ? 'playerOneShip' : 'playerTwoShip'
 				)
-			} else {
-				// Display '-' if the cell is empty
 			}
 			cellDiv.appendChild(cellContent)
 			grid.appendChild(cellDiv)

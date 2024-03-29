@@ -94,7 +94,7 @@ main{
     margin: 1%;
 }
 .winner{
-    font-size: 10vw;
+    font-size: 7vw;
     color: gold;
     text-shadow: 2px 2px 10px white;
 }
@@ -194,12 +194,12 @@ main{
 }
 
 .playerOneShip{
-    background-color: rgba(0, 110, 255, 0.582);
-    border: 1px solid rgba(0, 0, 255, 0.87)
+    background-color: rgba(0, 110, 255, 1);
+    border: 1px solid rgba(0, 0, 255, 0)
 }
-.playerTwoShip{
+.playerTwoShipCheat{
     background-color: rgba(255, 0, 0, 0.596);
-    border: 1px solid rgb(255, 0, 0)
+    border: 1px solid rgba(255, 0, 0, 0)
 }
 .shipHit{
     background-color: red;
