@@ -54,6 +54,40 @@ main{
     display: flex;
     flex-direction: column;
     background-color: dimgray;
+    border: 5px solid black;
+    border-radius: 10px;
+}
+.modal-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    >.modalTitle{
+        font-size: 4vw;
+        border-bottom: 5px dotted black;
+        margin-bottom: 5%;
+    }
+    >.modalLabel{
+        font-size: 3vw;
+        margin: 0;
+    }
+    >.modalInput{
+        width: 80%;
+        font-size: 3vw;
+    }
+    >.btnDiv{
+        display: flex;
+        justify-content: center;
+        width: 82%;
+        >.modal-button{
+            width: 50%;
+            font-size: 3vw;
+        }
+    }
+}
+::backdrop{
+    background-color: black;
+    opacity: 0.8;
 }
 .button{
     font-size: 3vw;
@@ -69,8 +103,8 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width:90vw;
-    height:80vh;
+    width:60vw;
+    height:36vw;
 
 }
 .turn-container{

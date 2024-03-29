@@ -7,12 +7,13 @@ export default function createModal() {
 	modal.setAttribute('id', 'modal')
 
 	const form = document.createElement('form')
+	form.classList.add('modal-form')
 	form.setAttribute('autocomplete', 'off')
 
 	// forms title
 	const formTitle = document.createElement('p')
 	formTitle.classList.add('modalTitle')
-	formTitle.textContent = 'Lets play battleship!'
+	formTitle.textContent = "Let's play battleship!"
 	// player name label
 	const playerNameLabel = document.createElement('label')
 	playerNameLabel.setAttribute('for', 'playerNameInput')
@@ -28,6 +29,7 @@ export default function createModal() {
 
 	// button div
 	const btnDiv = document.createElement('div')
+	btnDiv.classList.add('btnDiv')
 
 	// submit button
 	const submitBtn = document.createElement('input')
