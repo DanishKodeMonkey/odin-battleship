@@ -26,4 +26,5 @@ While testing is a big point of the practice, testing the DOM elements of the pr
 
 ### check it out
 
+![A screenshot from the game in action](./resources/images/Screenshot_20240329_145940.png)
 [have a play right here!](https://danishkodemonkey.github.io/odin-battleship/)
