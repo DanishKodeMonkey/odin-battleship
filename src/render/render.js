@@ -63,6 +63,9 @@ function placeShipToDOM(
 	promptShipPlacement,
 	allShipsPlacedCallback
 ) {
+	if (board.fleet.length === 0) {
+		placeInstructions()
+	}
 	console.log('placeShipToDOM trigger received: ', ship, player)
 	const name = player.name
 	const grid = document.getElementById(`${name}-grid`)
@@ -138,6 +141,7 @@ function placeShipToDOM(
 				promptShipPlacement()
 			} else {
 				console.log('no more ships found, start game.')
+				clearInstructions()
 				allShipsPlacedCallback()
 			}
 		})
@@ -232,6 +236,18 @@ function updateBoard(board, name) {
 	}
 }
 
+function placeInstructions() {
+	const turnDiv = document.getElementById('turn-div')
+	const instructionsDiv = document.createElement('div')
+	instructionsDiv.classList.add('instructionsDiv')
+	instructionsDiv.textContent = 'Press R to rotate, mouse click to place.'
+	turnDiv.appendChild(instructionsDiv)
+}
+function clearInstructions() {
+	const turnDiv = document.getElementById('turn-div')
+	const instructionsDiv = turnDiv.querySelector('.instructionsDiv')
+	turnDiv.removeChild(instructionsDiv)
+}
 function declareWinner(player) {
 	const winner = player.toUpperCase()
 	const turnContainer = document.getElementById('turn-div')
