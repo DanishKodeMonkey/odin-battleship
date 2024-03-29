@@ -21,3 +21,9 @@ Write a test, make it pass. Write another test, make that pass too.
 I'm excited to see what kind of shenanigans I can get into while doing this.
 
 My main focus for the testing aspect will be in testing as much asa I can of the underlying logic of the script, so the DOM is not what's going to be tested this time around, though I will try to test some of the underlying DOM manipulation functions before I code them. ( that still sounds funky in my head )
+
+While testing is a big point of the practice, testing the DOM elements of the project is out of scope for this exercise.
+
+### check it out
+
+[have a play right here!](https://danishkodemonkey.github.io/odin-battleship/)
