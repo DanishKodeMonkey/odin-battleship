@@ -135,6 +135,41 @@ function placeShipToDOM(
 	})
 }
 
+function setupAttackListeners(attacker, defender) {
+	const defenderName = defender.name
+	const defenderGrid = document.getElementById(`${defenderName}-grid`)
+	const cells = defenderGrid.querySelectorAll('.cell')
+	console.log(defenderGrid)
+	cells.forEach((cell) => {
+		cell.addEventListener('mouseover', function () {
+			// add shiphover class to the hovered cell
+			cell.classList.add('boardTarget')
+		})
+		cell.addEventListener('mouseout', function () {
+			// remove shiphover class from all cells
+			cells.forEach((cell) => cell.classList.remove('boardTarget'))
+		})
+		cell.addEventListener('click', function () {
+			const coordinate = this.getAttribute('coordinate').split(',')
+			const x = parseInt(coordinate[0])
+			const y = parseInt(coordinate[1])
+			if (!attacker.hasPointBeenHit(x, y)) {
+				const cellContent = this.querySelector('.cellContent')
+				const isHit = defender.board.registerHit([x, y]) // returns boolean if hit to isHit
+				attacker.markPointAsHit(x, y) // add point to hit history of attacker
+				if (isHit) {
+					cellContent.textContent = 'X' // hit marker
+					this.classList.add('shipHit')
+				} else {
+					cellContent.textContent = '/'
+					this.classList.add('missedHit')
+				}
+			} else {
+				console.log('This point has already been attacked. Try again.')
+			}
+		})
+	})
+}
 function updateBoard(board, name) {
 	const grid = document.getElementById(`${name}-grid`)
 
@@ -166,4 +201,10 @@ function updateBoard(board, name) {
 	}
 }
 
-export { renderBoard, placeShipToDOM, updateBoard, updateTurnDOM }
+export {
+	renderBoard,
+	placeShipToDOM,
+	updateBoard,
+	updateTurnDOM,
+	setupAttackListeners,
+}

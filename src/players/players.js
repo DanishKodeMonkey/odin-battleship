@@ -38,6 +38,16 @@ class Player {
 		// if fail 20 times
 		throw new Error('Failed to target a valid point after multiple attempts.')
 	}
+
+	// method to check if a point has been hit already
+	hasPointBeenHit(row, col) {
+		return this.pointsHit.has(`${row}, ${col}`)
+	}
+
+	// method to mark a point as hit in history
+	markPointAsHit(row, col) {
+		this.pointsHit.add(`${row}, ${col}`)
+	}
 }
 
 function createNPC() {

@@ -1,5 +1,9 @@
 import { Player, createNPC } from '../players/players'
-import { placeShipToDOM, updateTurnDOM } from '../render/render'
+import {
+	placeShipToDOM,
+	updateTurnDOM,
+	setupAttackListeners,
+} from '../render/render'
 
 // STOP TRYING TO RENDER STUFF AND HANDLE INFORMATION THAT OTHER MODULES SHOULD HANDLE DUDE AARR!
 // initialize a render for each players board here, but handle it in another module.
@@ -29,9 +33,9 @@ export default class GameController {
 	game() {
 		console.log('game now starting')
 		this.changeTurn()
-		if (this.currentPlayer === this.PlayerOne) {
-			console.log('ping')
-		}
+		this.currentPlayer === this.PlayerOne
+			? setupAttackListeners(this.PlayerOne, this.PlayerTwo)
+			: setupAttackListeners(this.PlayerTwo, this.PlayerOne)
 	}
 	changeTurn() {
 		this.currentPlayer =

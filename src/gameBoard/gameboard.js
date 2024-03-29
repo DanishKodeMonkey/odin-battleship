@@ -124,6 +124,7 @@ export default class GameBoard {
 	}
 
 	registerHit(coords) {
+		console.log('received hit at ', coords)
 		const row = coords[0]
 		const col = coords[1]
 		const hitCell = this.grid.find(
@@ -136,11 +137,14 @@ export default class GameBoard {
 		if (hitCell.ship) {
 			hitCell.ship.hit()
 			hitCell.isHit = true
+			this.updateShips()
+			return true // Ship was hit, return true to sender
 		} else {
 			// register cell as missed
 			hitCell.isHit = true
+			this.updateShips()
+			return false // ship was missed, return false to sender.
 		}
-		this.updateShips()
 	}
 	updateShips() {
 		// use a set to store the ships

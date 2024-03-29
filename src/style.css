@@ -143,12 +143,18 @@ main{
 
 }
 .cellContent{
-    font-size: clamp(20px,1vw,50px);
+    font-size: clamp(10px,3vw,50px);
     margin:0;
+    line-height:3.5vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
 }
 .shipHover{
     background-color: azure;
 }
+
 .playerOneShip{
     background-color: rgba(0, 110, 255, 0.582);
     border: 1px solid rgba(0, 0, 255, 0.87)
@@ -157,6 +163,20 @@ main{
     background-color: rgba(255, 0, 0, 0.596);
     border: 1px solid rgb(255, 0, 0)
 }
+.shipHit{
+    background-color: red;
+    border: 1px solid white;
+    color: white;
+}
+.missedHit{
+    background-color: black;
+    color: red;
+}
+.boardTarget{
+    background-color: red;
+    border: 1px solid greenyellow;
+}
+
 footer{
     position: fixed;
     left: 0;

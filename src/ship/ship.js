@@ -30,6 +30,7 @@ export default class Ship {
 		return this.health === 0 ? true : false
 	}
 	hit() {
+		console.log("It's a hit!")
 		this.hits += 1
 		this.health = this.updateHealth()
 		this.isSunk()
