@@ -166,7 +166,11 @@ function setupAttackListeners(attacker, defender, endTurnCallback) {
 	const defenderName = defender.name
 	const defenderGrid = document.getElementById(`${defenderName}-grid`)
 	const cells = defenderGrid.querySelectorAll('.cell')
-	console.log(defenderGrid)
+	/*  Thank you internet for this one, use an AbortController to clear listeners after turn */
+	const controller = new AbortController()
+
+	/*  extract the signal property from the controller to be used. */
+	const { signal } = controller
 	cells.forEach((cell) => {
 		cell.addEventListener('mouseover', function () {
 			// add shiphover class to the hovered cell
@@ -177,34 +181,42 @@ function setupAttackListeners(attacker, defender, endTurnCallback) {
 			cells.forEach((cell) => cell.classList.remove('boardTarget'))
 		})
 
-		cell.addEventListener('click', function () {
-			console.log('cell hit trigger')
-			const coordinate = this.getAttribute('coordinate').split(',')
-			const x = parseInt(coordinate[0])
-			const y = parseInt(coordinate[1])
-			if (!attacker.hasPointBeenHit(x, y)) {
-				const cellContent = this.querySelector('.cellContent')
-				const isHit = defender.board.registerHit([x, y]) // returns boolean if hit to isHit
-				attacker.markPointAsHit(x, y) // add point to hit history of attacker
-				if (isHit) {
-					cellContent.textContent = 'X' // hit marker
-					this.classList.add('shipHit')
-					if (endTurnCallback) {
-						endTurnCallback()
+		cell.addEventListener(
+			'click',
+			function () {
+				console.log('cell hit trigger')
+				const coordinate = this.getAttribute('coordinate').split(',')
+				const x = parseInt(coordinate[0])
+				const y = parseInt(coordinate[1])
+				if (!attacker.hasPointBeenHit(x, y)) {
+					const cellContent = this.querySelector('.cellContent')
+					const isHit = defender.board.registerHit([x, y]) // returns boolean if hit to isHit
+					attacker.markPointAsHit(x, y) // add point to hit history of attacker
+					if (isHit) {
+						cellContent.textContent = 'X' // hit marker
+						this.classList.add('shipHit')
+						if (endTurnCallback) {
+							endTurnCallback()
+						}
+					} else {
+						cellContent.textContent = '/'
+						this.classList.add('missedHit')
+						if (endTurnCallback) {
+							endTurnCallback()
+						}
 					}
+					// once a cell is clicked, the abortController is triggered, nuking all event listeners
+					controller.abort()
 				} else {
-					cellContent.textContent = '/'
-					this.classList.add('missedHit')
-					if (endTurnCallback) {
-						endTurnCallback()
-					}
+					console.log('This point has already been attacked. Try again.')
 				}
-			} else {
-				console.log('This point has already been attacked. Try again.')
-			}
-		})
+			},
+			// abort signal is assigned as third argument to all event listeners on all cells
+			{ signal }
+		)
 	})
 }
+
 function updateBoard(board, name) {
 	const grid = document.getElementById(`${name}-grid`)
 
