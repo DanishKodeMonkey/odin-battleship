@@ -7,7 +7,7 @@ export default class GameBoard {
 		this.shipCount = this.updateShips()
 		this.fleet = []
 		this.isReady = false
-		this.gameOver = false
+		this.gameOver = this.checkGameOver.bind(this)
 		this.shipsToPlace = [
 			new Ship('carrier'),
 			new Ship('battleship'),
@@ -161,7 +161,7 @@ export default class GameBoard {
 	}
 
 	checkGameOver() {
-		if (this.shipCount <= 0) return true
+		return this.fleet.every((ship) => ship.isSunk())
 	}
 	printGrid() {
 		let gridString = ''

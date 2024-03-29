@@ -11,7 +11,7 @@ export default class GameController {
 	constructor(playerOneName, playerTwoName) {
 		this.PlayerOne = new Player(playerOneName)
 		this.PlayerTwo = playerTwoName ? new Player(playerTwoName) : createNPC()
-		this.currentPlayer
+		this.currentPlayer = this.PlayerOne
 	}
 
 	isReady() {
@@ -31,18 +31,39 @@ export default class GameController {
 		this.start()
 	}
 	game() {
-		console.log('game now starting')
-		this.changeTurn()
-		this.currentPlayer === this.PlayerOne
-			? setupAttackListeners(this.PlayerOne, this.PlayerTwo)
-			: setupAttackListeners(this.PlayerTwo, this.PlayerOne)
+		if (this.isGameOver()) {
+			// end the game loop, game over
+			return
+		}
+		console.log('game trigger')
+		updateTurnDOM(this.currentPlayer.name)
+		this.startTurn(
+			this.currentPlayer,
+			this.currentPlayer === this.PlayerOne ? this.PlayerTwo : this.PlayerOne
+		)
 	}
+	startTurn(attacker, defender) {
+		console.log('starting turn: ', attacker.name, defender.name)
+		if (attacker.isNPC) {
+			defender.turn = false
+			attacker.turn = true
+			attacker.processNPCTurn(defender.board, () => {
+				this.changeTurn()
+				this.game()
+			})
+		} else {
+			defender.turn = false
+			attacker.turn = true
+			setupAttackListeners(attacker, defender, () => {
+				this.changeTurn()
+				this.game()
+			})
+		}
+	}
+
 	changeTurn() {
 		this.currentPlayer =
 			this.currentPlayer === this.PlayerOne ? this.PlayerTwo : this.PlayerOne
-		this.PlayerOne.turn = !this.PlayerOne.turn
-		this.PlayerTwo.turn = !this.PlayerTwo.turn
-		updateTurnDOM(this.currentPlayer.name)
 	}
 	promptShipPlacement() {
 		const currentPlayer = this.PlayerOne
@@ -62,5 +83,6 @@ export default class GameController {
 
 	isGameOver() {
 		// game over logic
+		return this.PlayerOne.board.gameOver() || this.PlayerTwo.board.gameOver()
 	}
 }

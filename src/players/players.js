@@ -5,38 +5,39 @@ class Player {
 		this.name = name
 		this.board = new GameBoard(boardSize)
 		this.isNPC = isNPC
-		this.turn = this.checkIfNPC()
+		this.turn = false
 		this.pointsHit = new Set()
 	}
-	checkIfNPC() {
-		if (this.isNPC) {
-			return false
-		} else {
-			return true
-		}
-	}
-	processNPCTurn(targetBoard) {
+
+	processNPCTurn(targetBoard, changeTurn) {
 		if (!this.isNPC || !this.turn) {
-			throw new Error('Is not NPC, or is not NPC turn. Skipping.')
-		}
-		let attempts = 0
+			console.log(this.name, ': Not my turn, waiting')
+			return
+		} else {
+			let attempts = 0
+			console.log(this.name, ': My turn!')
 
-		while (attempts < 20) {
-			const randomRow = Math.floor(Math.random() * targetBoard.size)
-			const randomCol = Math.floor(Math.random() * targetBoard.size)
-			const targetPoint = [randomRow, randomCol]
-
-			if (!this.pointsHit.has(targetPoint)) {
-				console.log(`NPC targets point [${randomRow}, ${randomCol}]`)
-				this.pointsHit.add(targetPoint)
-				return // Exit loop and function after successful hit
+			while (attempts < 20) {
+				console.log(`${this.name}: ${attempts} try...`)
+				const randomRow = Math.floor(Math.random() * targetBoard.size)
+				const randomCol = Math.floor(Math.random() * targetBoard.size)
+				const targetPoint = [randomRow, randomCol]
+				console.log(`${this.name}: Targeting ${targetPoint}`)
+				if (!this.pointsHit.has(targetPoint)) {
+					console.log(`NPC hits point [${randomRow}, ${randomCol}]`)
+					this.pointsHit.add(targetPoint)
+					this.turn = false
+					changeTurn()
+					return // Exit loop and function after successful hit
+				}
+				// If failing once
+				console.error(`${this.name}: I hit this already, retrying...`)
+				attempts++
 			}
-			// If failing once
-			console.error('Invalid point targeted, already hit before. Retrying...')
-			attempts++
+
+			// if fail 20 times
+			throw new Error('Failed to target a valid point after multiple attempts.')
 		}
-		// if fail 20 times
-		throw new Error('Failed to target a valid point after multiple attempts.')
 	}
 
 	// method to check if a point has been hit already

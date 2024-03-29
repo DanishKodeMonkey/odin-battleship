@@ -135,7 +135,7 @@ function placeShipToDOM(
 	})
 }
 
-function setupAttackListeners(attacker, defender) {
+function setupAttackListeners(attacker, defender, endTurnCallback) {
 	const defenderName = defender.name
 	const defenderGrid = document.getElementById(`${defenderName}-grid`)
 	const cells = defenderGrid.querySelectorAll('.cell')
@@ -160,9 +160,11 @@ function setupAttackListeners(attacker, defender) {
 				if (isHit) {
 					cellContent.textContent = 'X' // hit marker
 					this.classList.add('shipHit')
+					endTurnCallback()
 				} else {
 					cellContent.textContent = '/'
 					this.classList.add('missedHit')
+					endTurnCallback()
 				}
 			} else {
 				console.log('This point has already been attacked. Try again.')
