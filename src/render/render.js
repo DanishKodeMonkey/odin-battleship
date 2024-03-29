@@ -13,6 +13,7 @@ function renderBoard(gameBoard, containerID, player) {
 	const grid = document.createElement('div')
 	grid.classList.add('grid-container')
 	grid.setAttribute('id', `${player}-grid`)
+	console.log(grid)
 
 	for (let row = 0; row < gameBoard.size; row++) {
 		for (let col = 0; col < gameBoard.size; col++) {
@@ -65,6 +66,13 @@ function placeShipToDOM(
 	console.log('placeShipToDOM trigger received: ', ship, player)
 	const name = player.name
 	const grid = document.getElementById(`${name}-grid`)
+	let shipOrientation = 'horizontal'
+
+	function toggleShipOrientation() {
+		shipOrientation =
+			shipOrientation === 'horizontal' ? 'vertical' : 'horizontal'
+		console.log('Ship orientation toggled to', shipOrientation)
+	}
 
 	// retrieve all cell elements from grid
 
@@ -81,7 +89,7 @@ function placeShipToDOM(
 			cell.classList.add('shipHover')
 			// determine number of adjacent cells to highlight
 			const shipSize = ship.size
-			const alignment = 'horizontal'
+			const alignment = shipOrientation
 
 			if (alignment === 'horizontal') {
 				for (let i = 1; i < shipSize; i++) {
@@ -101,7 +109,7 @@ function placeShipToDOM(
 						(cell) => cell.row === x + i && cell.col === y
 					)
 					if (nextCell) {
-						const nextCellElement = gridContainer.querySelector(
+						const nextCellElement = grid.querySelector(
 							`.cell[coordinate='${x + i},${y}']`
 						)
 						nextCellElement.classList.add('shipHover')
@@ -113,6 +121,7 @@ function placeShipToDOM(
 			// remove shiphover class from all cells
 			cells.forEach((cell) => cell.classList.remove('shipHover'))
 		})
+
 		cell.addEventListener('click', function () {
 			console.log(
 				'placing ship at',
@@ -122,7 +131,7 @@ function placeShipToDOM(
 			const coordinate = this.getAttribute('coordinate').split(',')
 			const x = parseInt(coordinate[0])
 			const y = parseInt(coordinate[1])
-			board.placeShip(ship, [x, y], 'horizontal')
+			board.placeShip(ship, [x, y], shipOrientation)
 			updateBoard(board, name)
 			if (board.shipsToPlace.length !== 0) {
 				console.log('more ships found: ', board.shipsToPlace)
@@ -132,6 +141,20 @@ function placeShipToDOM(
 				allShipsPlacedCallback()
 			}
 		})
+	})
+	document.addEventListener('keydown', function (e) {
+		if (e.key === 'r' || e.key === 'R') {
+			if (e.repeat) {
+				return
+			} else {
+				toggleShipOrientation()
+				// Update ship orientation and highlight cells accordingly
+				cells.forEach((cell) => {
+					cell.dispatchEvent(new Event('mouseout')) // Remove previous hover effect
+					cell.dispatchEvent(new Event('mouseover')) // Apply new hover effect
+				})
+			}
+		}
 	})
 }
 
@@ -149,7 +172,9 @@ function setupAttackListeners(attacker, defender, endTurnCallback) {
 			// remove shiphover class from all cells
 			cells.forEach((cell) => cell.classList.remove('boardTarget'))
 		})
+
 		cell.addEventListener('click', function () {
+			console.log('cell hit trigger')
 			const coordinate = this.getAttribute('coordinate').split(',')
 			const x = parseInt(coordinate[0])
 			const y = parseInt(coordinate[1])
@@ -160,11 +185,15 @@ function setupAttackListeners(attacker, defender, endTurnCallback) {
 				if (isHit) {
 					cellContent.textContent = 'X' // hit marker
 					this.classList.add('shipHit')
-					endTurnCallback()
+					if (endTurnCallback) {
+						endTurnCallback()
+					}
 				} else {
 					cellContent.textContent = '/'
 					this.classList.add('missedHit')
-					endTurnCallback()
+					if (endTurnCallback) {
+						endTurnCallback()
+					}
 				}
 			} else {
 				console.log('This point has already been attacked. Try again.')
@@ -203,10 +232,22 @@ function updateBoard(board, name) {
 	}
 }
 
+function declareWinner(player) {
+	const winner = player.toUpperCase()
+	const turnContainer = document.getElementById('turn-div')
+	turnContainer.textContent = ''
+	const boardContainer = document.getElementById('board-container')
+	boardContainer.textContent = ''
+	const winnerBox = document.createElement('div')
+	winnerBox.classList.add('winner')
+	winnerBox.textContent = winner + ' WINS!!!'
+	boardContainer.appendChild(winnerBox)
+}
 export {
 	renderBoard,
 	placeShipToDOM,
 	updateBoard,
 	updateTurnDOM,
 	setupAttackListeners,
+	declareWinner,
 }

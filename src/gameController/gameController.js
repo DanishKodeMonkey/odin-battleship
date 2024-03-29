@@ -3,6 +3,7 @@ import {
 	placeShipToDOM,
 	updateTurnDOM,
 	setupAttackListeners,
+	declareWinner,
 } from '../render/render'
 
 // STOP TRYING TO RENDER STUFF AND HANDLE INFORMATION THAT OTHER MODULES SHOULD HANDLE DUDE AARR!
@@ -31,10 +32,6 @@ export default class GameController {
 		this.start()
 	}
 	game() {
-		if (this.isGameOver()) {
-			// end the game loop, game over
-			return
-		}
 		console.log('game trigger')
 		updateTurnDOM(this.currentPlayer.name)
 		this.startTurn(
@@ -47,16 +44,26 @@ export default class GameController {
 		if (attacker.isNPC) {
 			defender.turn = false
 			attacker.turn = true
-			attacker.processNPCTurn(defender.board, () => {
-				this.changeTurn()
-				this.game()
+			attacker.processNPCTurn(attacker, defender, () => {
+				if (this.isGameOver()) {
+					declareWinner(this.currentPlayer.name)
+					return
+				} else {
+					this.changeTurn()
+					this.game()
+				}
 			})
 		} else {
 			defender.turn = false
 			attacker.turn = true
 			setupAttackListeners(attacker, defender, () => {
-				this.changeTurn()
-				this.game()
+				if (this.isGameOver()) {
+					declareWinner(this.currentPlayer.name)
+					return
+				} else {
+					this.changeTurn()
+					this.game()
+				}
 			})
 		}
 	}

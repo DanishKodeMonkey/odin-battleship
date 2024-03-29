@@ -1,4 +1,5 @@
 import GameBoard from '../gameBoard/gameboard'
+import { setupAttackListeners } from '../render/render'
 import Ship from '../ship/ship'
 class Player {
 	constructor(name, boardSize = 10, isNPC = false) {
@@ -9,7 +10,7 @@ class Player {
 		this.pointsHit = new Set()
 	}
 
-	processNPCTurn(targetBoard, changeTurn) {
+	processNPCTurn(attacker, defender, endTurnCallback) {
 		if (!this.isNPC || !this.turn) {
 			console.log(this.name, ': Not my turn, waiting')
 			return
@@ -19,15 +20,33 @@ class Player {
 
 			while (attempts < 20) {
 				console.log(`${this.name}: ${attempts} try...`)
-				const randomRow = Math.floor(Math.random() * targetBoard.size)
-				const randomCol = Math.floor(Math.random() * targetBoard.size)
+				const randomRow = Math.floor(Math.random() * defender.board.size)
+				const randomCol = Math.floor(Math.random() * defender.board.size)
 				const targetPoint = [randomRow, randomCol]
 				console.log(`${this.name}: Targeting ${targetPoint}`)
 				if (!this.pointsHit.has(targetPoint)) {
 					console.log(`NPC hits point [${randomRow}, ${randomCol}]`)
+					// save point to history
 					this.pointsHit.add(targetPoint)
+					console.log(
+						`${this.name}: is attacking #${defender.name}-grid .cell[coordinate='${randomRow}, ${randomCol}']`
+					)
+					// set up event listeners on player grid
+					setupAttackListeners(attacker, defender)
+					// simulate a click event on cell corresponding to random coordinates
+					const cell = document.querySelector(
+						`#${defender.name}-grid .cell[coordinate='${randomRow},${randomCol}']`
+					)
+					if (cell) {
+						console.log(
+							`${this.name}: Ok, I'm clicking cell ${randomRow},${randomCol}`
+						)
+						cell.click()
+					} else {
+						console.error(`Cell not found at: [${randomRow}, ${randomCol}]`)
+					}
 					this.turn = false
-					changeTurn()
+					endTurnCallback()
 					return // Exit loop and function after successful hit
 				}
 				// If failing once

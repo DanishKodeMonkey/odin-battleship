@@ -4,12 +4,11 @@ import { renderBoard } from './render/render'
 import GameController from './gameController/gameController'
 import createModal from './render/modal'
 
-const newGameBtn = document.getElementById('new-game-button')
-newGameBtn.addEventListener('click', (e) => {
+function promptNewGame() {
 	// create modal for inputting player name, modal submit will trigger newGame()
 	const modal = createModal()
 	modal.showModal()
-})
+}
 
 export function newGame(playerOne) {
 	// start new game
@@ -20,3 +19,9 @@ export function newGame(playerOne) {
 
 	game.start()
 }
+const newGameBtn = document.getElementById('new-game-button')
+newGameBtn.addEventListener('click', (e) => {
+	location.reload()
+})
+
+promptNewGame()
